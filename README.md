@@ -9,6 +9,8 @@
 - 上传进度
 
 ## Step
-`yarn install` 
+`yarn install`
+
 `node server.ts`
+
 `yarn start`
