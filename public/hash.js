@@ -9,7 +9,7 @@ onmessage = e => {
 
   // 创建
   const spark = new SparkMD5.ArrayBuffer()
-  let percentage = 0
+  let progress = 0
   let count = 0
   const loadNext = index => {
     const reader = new FileReader()
@@ -20,13 +20,13 @@ onmessage = e => {
       spark.append(event.target.result)
       if (count === slices.length) {
         postMessage({
-          percentage: 100,
+          progress: 100,
           hash: spark.end()
         })
         // 关闭 worker
         self.close()
       } else {
-        percentage += 100 / slices.length
+        progress += 100 / slices.length
         self.postMessage({ progress: parseInt(percentage) })
         // 递归计算下一个切片
         loadNext(count)
