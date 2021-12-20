@@ -5,6 +5,8 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import 'antd/dist/antd.css';
 import './App.css';
 
+const md5WASM = require('./md5-wasm');
+
 interface IChunk {
   // 切片源文件
   chunk: Blob;
@@ -65,7 +67,10 @@ function App() {
     if (file) {
       setFile(file);
       const slices = createFileSlices(file);
+      console.time("hash计算时间")
       const hashData = await calculateFileHash(slices);
+      // const hashData = await calculateFileHashWasm(file);
+      console.timeEnd("hash计算时间")
       hash.current = hashData;
       const res = await check({ fileName: file.name, hash: hashData });
 
@@ -168,6 +173,26 @@ function App() {
           if (hash) {
             resolve(hash)
           }
+        }
+      } catch (e) {
+        reject(e)
+      }
+    })
+  };
+  
+  // wasm计算文件hash值
+  const calculateFileHashWasm: (file: File) => Promise<string> = (file) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const reader = new FileReader()
+        reader.readAsArrayBuffer(file)
+        reader.onload = (event: any) => {
+          const buffer = event.target.result;
+          md5WASM(buffer).then((res: string) => {
+            resolve(res);
+          }).catch(() => {
+            reject();
+          });
         }
       } catch (e) {
         reject(e)
