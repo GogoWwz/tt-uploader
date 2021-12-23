@@ -27,7 +27,7 @@ onmessage = e => {
         self.close()
       } else {
         progress += 100 / slices.length
-        self.postMessage({ progress: parseInt(percentage) })
+        self.postMessage({ progress: parseInt(progress) })
         // 递归计算下一个切片
         loadNext(count)
       }

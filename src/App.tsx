@@ -25,14 +25,14 @@ interface IChunk {
 // 切片大小，先定为5M
 const SLICE_SIZE = 10 * 1024 * 1024;
 
-const upload = (param: FormData, confg: AxiosRequestConfig) => axios.post('http://10.10.121.150:3001/upload', param, confg);
+const upload = (param: FormData, confg: AxiosRequestConfig) => axios.post('http://localhost:3001/upload', param, confg);
 
 interface IMergeParams {
   fileName: string;
   hash: string;
   size: number;
 }
-const merge = (param: IMergeParams) => axios.post('http://10.10.121.150:3001/merge', param);
+const merge = (param: IMergeParams) => axios.post('http://localhost:3001/merge', param);
 
 interface ICheckParams {
   fileName: string;
@@ -43,7 +43,7 @@ interface ICheckRes {
   fileExist: boolean;
   uploadedChunks: string [];
 }
-const check = (params: ICheckParams) => axios.post<ICheckRes>('http://10.10.121.150:3001/check', params);
+const check = (params: ICheckParams) => axios.post<ICheckRes>('http://localhost:3001/check', params);
 
 function App() {
   const [file, setFile] = useState<File | null>(null);
