@@ -22,8 +22,8 @@ interface IChunk {
   cancel: () => void;
 }
 
-// 切片大小，先定为5M
-const SLICE_SIZE = 10 * 1024 * 1024;
+// 切片大小，先定为50M
+const SLICE_SIZE = 50 * 1024 * 1024;
 
 const upload = (param: FormData, confg: AxiosRequestConfig) => axios.post('http://localhost:3001/upload', param, confg);
 
@@ -49,7 +49,6 @@ function App() {
   const [file, setFile] = useState<File | null>(null);
   const [chunkList, setChunkList] = useState<IChunk[]>([]);
   const [uploadedChunk, setUploadedChunk] = useState<string[]>([]);
-  const [uploadXhrList, setUploadXhrList] = useState<any[]>([]);
 
   const [hashProgress, setHashProgress] = useState<number>(0);
 
